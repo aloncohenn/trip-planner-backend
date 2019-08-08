@@ -5,9 +5,10 @@ const requireAuth = require('../middleware/jwt-auth');
 const tripsRouter = express.Router();
 const jsonBodyParser = express.json();
 
+// Post New Trip
 tripsRouter
   .all(requireAuth)
-  .route('/newtrip')
+  .route('/new_trip')
   .post(jsonBodyParser, (req, res, next) => {
     const { user_id, title, destination, start_date, end_date } = req.body;
 
@@ -44,6 +45,7 @@ tripsRouter
       .catch(next);
   });
 
+// Get All Trips
 tripsRouter
   .all(requireAuth)
   .route('/get_trips/:user_id')
@@ -76,6 +78,8 @@ tripsRouter
       })
       .catch(next);
   });
+
+// Delete Trip
 
 tripsRouter
   .all(requireAuth)

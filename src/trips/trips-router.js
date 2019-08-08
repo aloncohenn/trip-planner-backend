@@ -10,12 +10,20 @@ tripsRouter
   .all(requireAuth)
   .route('/new_trip')
   .post(jsonBodyParser, (req, res, next) => {
-    const { user_id, title, destination, start_date, end_date } = req.body;
+    const {
+      user_id,
+      title,
+      destination,
+      category,
+      start_date,
+      end_date
+    } = req.body;
 
     const newTrip = {
       user_id,
       title,
       destination,
+      category,
       start_date,
       end_date
     };

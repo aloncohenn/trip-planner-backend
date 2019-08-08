@@ -3,6 +3,7 @@ CREATE TABLE trip_record (
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
     title TEXT NOT NULL,
     destination TEXT NOT NULL,
+    category TEXT NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     date_created TIMESTAMP DEFAULT now() NOT NULL

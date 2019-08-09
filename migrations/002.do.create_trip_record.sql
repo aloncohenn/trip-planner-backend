@@ -4,6 +4,7 @@ CREATE TABLE trip_record (
     title TEXT NOT NULL,
     destination TEXT NOT NULL,
     category TEXT NOT NULL,
+    status TEXT DEFAULT 'CREATED' NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     date_created TIMESTAMP DEFAULT now() NOT NULL

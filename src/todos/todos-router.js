@@ -1,13 +1,12 @@
 const express = require('express');
 const TodoService = require('./todos-service');
 const requireAuth = require('../middleware/jwt-auth');
-
-const todoRouter = express.Router();
+const todosRouter = express.Router();
 const jsonBodyParser = express.json();
 
-todoRouter
+todosRouter
   .all(requireAuth)
-  .route('/newtodo')
+  .route('/new_todo')
   .post(jsonBodyParser, (req, res, next) => {
     const { user_name, trip_id, title, done_status } = req.body;
 
@@ -33,7 +32,7 @@ todoRouter
       .catch(next);
   });
 
-todoRouter
+todosRouter
   .all(requireAuth)
   .route('/delete_todo')
   .delete(jsonBodyParser, (req, res, next) => {
@@ -46,17 +45,16 @@ todoRouter
       .catch(next);
   });
 
-todoRouter
+todosRouter
   .all(requireAuth)
   .route('/get_todos')
-  .get(jsonBodyParser, (req, res, next) => {
-    console.log('REQ.BODY IS: ', req.body);
+  .get((req, res, next) => {
     const { trip_id } = req.body;
     TodoService.getTodos(req.app.get('db'), trip_id)
-      .then(todos => {
-        res.status(200).json(todos);
+      .then(todosList => {
+        return res.status(200).json(todosList);
       })
       .catch(next);
   });
 
-module.exports = todoRouter;
+module.exports = todosRouter;

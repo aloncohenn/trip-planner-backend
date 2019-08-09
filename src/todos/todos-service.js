@@ -23,6 +23,7 @@ const TodoService = {
       .delete();
   },
   getTodos(db, trip_id) {
+    console.log(trip_id);
     return db('todo_items')
       .select('*')
       .where({ trip_id });

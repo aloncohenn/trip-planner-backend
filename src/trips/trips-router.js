@@ -91,13 +91,12 @@ tripsRouter
 
 tripsRouter
   .all(requireAuth)
-  .route('/delete')
+  .route('/delete_trip')
   .delete(jsonBodyParser, (req, res, next) => {
-    const { user_id, title } = req.body;
+    const { trip_id } = req.body;
 
     const data = {
-      user_id,
-      title
+      trip_id
     };
 
     TripService.deleteTrip(req.app.get('db'), data)

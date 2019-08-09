@@ -18,7 +18,7 @@ const TripService = {
   },
   deleteTrip(db, trip_id) {
     return db('trip_record')
-      .where({ trip_id })
+      .where('id', trip_id)
       .delete();
   },
   getTrips(db, user_id) {

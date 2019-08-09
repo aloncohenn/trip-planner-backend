@@ -95,11 +95,7 @@ tripsRouter
   .delete(jsonBodyParser, (req, res, next) => {
     const { trip_id } = req.body;
 
-    const data = {
-      trip_id
-    };
-
-    TripService.deleteTrip(req.app.get('db'), data)
+    TripService.deleteTrip(req.app.get('db'), trip_id)
       .then(trip => {
         return res.status(200).json(trip);
       })

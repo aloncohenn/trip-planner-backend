@@ -48,7 +48,7 @@ todosRouter
 todosRouter
   .all(requireAuth)
   .route('/get_todos')
-  .get((req, res, next) => {
+  .get(jsonBodyParser, (req, res, next) => {
     const { trip_id } = req.body;
     TodoService.getTodos(req.app.get('db'), trip_id)
       .then(todosList => {

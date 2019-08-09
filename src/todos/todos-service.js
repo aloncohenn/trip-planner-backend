@@ -12,7 +12,6 @@ const TodoService = {
   insertTodo(db, newTodo) {
     return db('todo_items')
       .insert(newTodo)
-      .where('user_name', newTodo.user_name)
       .where('trip_id', newTodo.trip_id)
       .returning('*')
       .then(([todo]) => todo);
@@ -29,9 +28,9 @@ const TodoService = {
   },
   updateTodo(db, data) {
     return db('todo_items')
-      .where('title', data.title)
-      .where('user_id', data.user_id)
-      .update(`${data.update}`, data.update);
+      .where('id', data.id)
+      .update('done_status', data.done_status)
+      .update('title', data.title);
   }
 };
 

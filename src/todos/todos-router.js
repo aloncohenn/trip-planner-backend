@@ -58,4 +58,23 @@ todosRouter
       .catch(next);
   });
 
+todosRouter
+  .all(requireAuth)
+  .route('/update_todo')
+  .put(jsonBodyParser, (req, res, next) => {
+    const { id, title, done_status } = req.body;
+
+    const data = {
+      id,
+      title,
+      done_status
+    };
+
+    TodoService.updateTodo(req.app.get('db'), data)
+      .then(todo => {
+        return res.status(204).json(todo);
+      })
+      .catch(next);
+  });
+
 module.exports = todosRouter;

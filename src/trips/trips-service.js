@@ -26,11 +26,21 @@ const TripService = {
       .select('*')
       .where({ user_id });
   },
-  updateTrip(db, trip) {
+  updateTrip(
+    db,
+    { id, title, destination, start_date, end_date, category, status }
+  ) {
     return db('trip_record')
-      .where('title', trip.title)
-      .where('user_id', trip.user_id)
-      .update(`${trip.update}`, trip.update);
+      .where({ id })
+      .update({
+        id,
+        title,
+        destination,
+        start_date,
+        end_date,
+        category,
+        status
+      });
   }
 };
 

@@ -1,6 +1,4 @@
 const AuthService = require('../auth/auth-service');
-const jwt = require('jsonwebtoken');
-const config = require('../config');
 
 const requireAuth = (req, res, next) => {
   const authToken = req.get('Authorization') || '';
@@ -12,14 +10,12 @@ const requireAuth = (req, res, next) => {
   }
 
   try {
-    const payload = verifyJWT(bearerToken);
-    const id = payload.id;
-    AuthService.getUser({ id })
+    const payload = AuthService.verifyJwt(bearerToken);
+    AuthService.getUserWithUsername(req.app.get('db'), payload.sub)
       .then(user => {
         if (!user) {
           return res.status(401).json({ error: 'unauthorized request' });
         }
-        // attach the user to the request
         req.user = user;
         next();
       })
@@ -28,13 +24,8 @@ const requireAuth = (req, res, next) => {
         next(error);
       });
   } catch (error) {
-    console.log(error);
     res.status(401).json({ error: 'unauthorized request' });
   }
-};
-
-const verifyJWT = token => {
-  return jwt.verify(token, config.JWT_SECRET, { algorithms: ['HS256'] });
 };
 
 module.exports = requireAuth;

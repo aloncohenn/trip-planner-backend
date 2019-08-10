@@ -26,11 +26,10 @@ const TodoService = {
       .select('*')
       .where({ trip_id });
   },
-  updateTodo(db, data) {
+  updateTodo(db, { id, title, done_status }) {
     return db('todo_items')
-      .where('id', data.id)
-      .update('done_status', data.done_status)
-      .update('title', data.title);
+      .where({ id })
+      .update({ title, done_status });
   }
 };
 

@@ -1,15 +1,14 @@
 const express = require('express');
 const TripService = require('./trips-service');
-const requireAuth = require('../middleware/jwt-auth');
+const requireAuth = require('../middleware/requireAuth');
 
 const tripsRouter = express.Router();
 const jsonBodyParser = express.json();
 
 // Post New Trip
 tripsRouter
-  .all(requireAuth)
   .route('/new_trip')
-  .post(jsonBodyParser, (req, res, next) => {
+  .post(jsonBodyParser, requireAuth, (req, res, next) => {
     const {
       user_id,
       title,
@@ -54,32 +53,20 @@ tripsRouter
   });
 
 // Get All Trips
+tripsRouter.route('/get_trips/:user_id').get(requireAuth, (req, res, next) => {
+  const { user_id } = req.params;
+  TripService.getTrips(req.app.get('db'), user_id)
+    .then(tripList => {
+      return res.status(200).json(tripList);
+    })
+    .catch(next);
+});
+
+// Update Trip
 tripsRouter
-  .all(requireAuth)
-  .route('/get_trips/:user_id')
-  .get((req, res, next) => {
-    const { user_id } = req.params;
-    TripService.getTrips(req.app.get('db'), user_id)
-      .then(tripList => {
-        return res.status(200).json(tripList);
-      })
-      .catch(next);
-  });
-
-tripsRouter
-  .all(requireAuth)
-  .route('/:user_id/update')
-  .put(jsonBodyParser, (req, res, next) => {
-    const { user_id, title, destination, start_date, end_date } = req.body;
-
-    const data = {
-      user_id,
-      title,
-      destination,
-      start_date,
-      end_date
-    };
-
+  .route('/update_trip')
+  .put(jsonBodyParser, requireAuth, (req, res, next) => {
+    const data = { ...req.body };
     TripService.updateTrip(req.app.get('db'), data)
       .then(trip => {
         return res.status(204).json(trip);
@@ -88,11 +75,9 @@ tripsRouter
   });
 
 // Delete Trip
-
 tripsRouter
-  .all(requireAuth)
   .route('/delete_trip')
-  .delete(jsonBodyParser, (req, res, next) => {
+  .delete(jsonBodyParser, requireAuth, (req, res, next) => {
     const { trip_id } = req.body;
 
     TripService.deleteTrip(req.app.get('db'), trip_id)

@@ -18,9 +18,9 @@ const requireAuth = (req, res, next) => {
         }
         req.user = user;
         next();
+        return null;
       })
       .catch(error => {
-        console.error(error);
         next(error);
       });
   } catch (error) {

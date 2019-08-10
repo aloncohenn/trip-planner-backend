@@ -35,19 +35,9 @@ tripsRouter
       }
     }
 
-    TripService.getTrips(req.app.get('db'), user_id)
-      .then(tripList => {
-        const checkIfExists = tripList.filter(trip => trip.title === title);
-        if (checkIfExists.length > 0) {
-          return res.status(400).json({
-            error: `This title is already in your Trip List!`
-          });
-        }
-        TripService.insertTrip(req.app.get('db'), newTrip)
-          .then(trip => {
-            return res.status(201).json(TripService.serializeTrip(trip));
-          })
-          .catch(next);
+    TripService.insertTrip(req.app.get('db'), newTrip)
+      .then(trip => {
+        return res.status(201).json(TripService.serializeTrip(trip));
       })
       .catch(next);
   });

@@ -8,9 +8,6 @@ const AuthService = {
       .where({ user_name })
       .first();
   },
-  comparePasswords(password, hash) {
-    return bcrypt.compare(password, hash);
-  },
   createJwt(subject, payload) {
     return jwt.sign(payload, config.JWT_SECRET, {
       subject,
@@ -22,10 +19,8 @@ const AuthService = {
       algorithms: ['HS256']
     });
   },
-  parseBasicToken(token) {
-    return Buffer.from(token, 'base64')
-      .toString()
-      .split(':');
+  comparePasswords(password, hash) {
+    return bcrypt.compare(password, hash);
   }
 };
 

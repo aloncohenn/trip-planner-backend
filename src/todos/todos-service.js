@@ -24,7 +24,8 @@ const TodoService = {
   getTodos(db, trip_id) {
     return db('todo_items')
       .select('*')
-      .where({ trip_id });
+      .where({ trip_id })
+      .orderBy('id', 'asc');
   },
   updateTodo(db, { id, title, done_status }) {
     return db('todo_items')

@@ -41,6 +41,11 @@ const TripService = {
         category,
         status
       });
+  },
+  getTripByID(db, { user_id, id }) {
+    return db('trip_record')
+      .select('*')
+      .where({ user_id, id });
   }
 };
 

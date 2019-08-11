@@ -77,4 +77,21 @@ tripsRouter
       .catch(next);
   });
 
+tripsRouter
+  .route('/get_trip_id')
+  .get(jsonBodyParser, requireAuth, (req, res, next) => {
+    const { user_id, id } = req.body;
+
+    const data = {
+      user_id,
+      id
+    };
+
+    TripService.getTripByID(req.app.get('db'), data)
+      .then(trip => {
+        return res.status(200).json(trip);
+      })
+      .catch(next);
+  });
+
 module.exports = tripsRouter;

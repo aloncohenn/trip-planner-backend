@@ -24,7 +24,8 @@ const TripService = {
   getTrips(db, user_id) {
     return db('trip_record')
       .select('*')
-      .where({ user_id });
+      .where({ user_id })
+      .orderBy('id', 'asc');
   },
   updateTrip(
     db,

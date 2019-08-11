@@ -78,9 +78,9 @@ tripsRouter
   });
 
 tripsRouter
-  .route('/get_trip_id')
+  .route('/get_trip/:user_id/:id')
   .get(jsonBodyParser, requireAuth, (req, res, next) => {
-    const { user_id, id } = req.body;
+    const { user_id, id } = req.params;
 
     const data = {
       user_id,
